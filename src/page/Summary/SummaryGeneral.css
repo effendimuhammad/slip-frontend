@@ -1,0 +1,9 @@
+/* styles.css */
+.form-group-custom {
+    display: flex;
+    align-items: center;
+  }
+  
+  .form-group-custom .form-label {
+    margin-right: 10px; /* Sesuaikan jarak sesuai kebutuhan */
+  }

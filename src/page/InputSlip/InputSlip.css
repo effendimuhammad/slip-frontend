@@ -1,0 +1,72 @@
+.card-title {
+  text-align:left;
+  font-size: 25px;
+  font-weight: bold;
+  font-family: 'Roboto', sans-serif;
+}
+.form-label-kode {
+  font-weight: bold;
+  font-family: 'Roboto', sans-serif;
+}
+
+.button-group button {
+  margin-right: 10px; /* Atur jarak sesuai kebutuhan */
+}
+
+.button-group button:last-child {
+  margin-right: 0; /* Menghapus margin pada tombol terakhir */
+}
+
+.margin-top {
+  margin-top: 10px;
+}
+
+.card-body {
+  padding-top: 20px; /* Ruang di atas */
+  padding-bottom: 20px; /* Ruang di bawah */
+  padding-left: 10px; /* Ruang di kiri */
+  padding-right: 10px; /* Ruang di kanan */
+}
+
+.text-modify {
+  margin-top: 20px;
+  font-weight: bold;
+  font-family: 'Roboto', sans-serif;
+}
+.text-modify1 {
+  margin-top: 10px;
+  font-weight: bold;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Tambahkan kelas untuk scroll */
+.scrollable {
+  overflow-y: auto;
+  max-height: 600px; /* Sesuaikan dengan kebutuhan Anda */
+  padding-right: 15px; /* Tambahkan padding untuk menghindari overlap dengan scrollbar */
+}
+
+/* Tambahkan beberapa gaya untuk elemen form */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.item-group {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.item-group:last-child {
+  border-bottom: none;
+}
+
+.danger {
+  margin-top: 10px;
+}
+
+.card-body-scrollable {
+  overflow-y: auto;
+  max-height: 850px; /* Sesuaikan dengan kebutuhan Anda */
+  padding-right: 15px; /* Tambahkan padding untuk menghindari overlap dengan scrollbar */
+}

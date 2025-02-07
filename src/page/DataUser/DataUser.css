@@ -1,0 +1,43 @@
+
+.bg-body-tertiary {
+    background-color: #3e9e73;
+  }
+  
+  .mt-10 {
+    margin-top: 10px;
+  }
+  
+  .equal-card {
+    width: 100%;
+    min-height: 30px; /* Sesuaikan dengan kebutuhan Anda */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-decoration: none;
+    color: inherit;
+    color:   #333;
+    background-color: #f0f0f0; /* Warna latar belakang */
+   
+  }
+  
+  .equal-card:hover {
+    background-color: #e0e0e0; /* Warna latar belakang saat hover */
+    color:#000; /* Warna teks saat hover */
+  }
+  
+  .nav-link-custom {
+    color: #333; /* Warna teks link */
+  }
+  
+  .nav-link-custom:hover {
+    color: #000; /* Warna teks link saat hover */
+    text-decoration: none; /* Menghapus underline saat hover */
+  }
+  
+  .navbar-brand {
+    font-weight: bold;
+  }
+  
+  .nav-link-bold {
+    font-weight: bold;
+  }
