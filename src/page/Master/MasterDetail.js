@@ -253,7 +253,7 @@ const MasterDetail = () => {
           <Col md={10} className="margin-top">
             <Form.Group as={Row} controlId="filterPartNumber" className="mb-3">
               <Form.Label column sm="1">
-                Search Part No. :
+                Search Part No.
               </Form.Label>
               <Col sm="4">
                 <Form.Control
@@ -265,7 +265,7 @@ const MasterDetail = () => {
               </Col>
 
               <Form.Label column sm="1">
-                Total Price :
+                Total Price.
               </Form.Label>
               <Col sm="2">
                 <Form.Control

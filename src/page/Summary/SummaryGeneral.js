@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container } from "react-bootstrap";
+import { Container, Card } from "react-bootstrap";
 import Navbar from "../../components/Atom/Navbar/Navbar.js";
 import Footer from "../../components/Atom/Footer/Footer.js";
 import { Row, Col, Form } from "react-bootstrap";
@@ -27,10 +27,10 @@ const Contact = () => {
     }
   };
 
-  const fetchDataDougnut = async () => {
+  const fetchDataDougnut = async (year) => {
     try {
       const response = await axios.get(
-        "http://localhost:4100/api/summary/getDoughnut"
+        `http://localhost:4100/api/summary/getDoughnut/${year}`
       );
       console.log("API response data:", response.data.data);
       setDataDougnut(response.data.data);
@@ -42,7 +42,7 @@ const Contact = () => {
   useEffect(() => {
     const year = format(selectedYear, "yyyy");
     fetchData(year);
-    fetchDataDougnut();
+    fetchDataDougnut(year);
   }, [selectedYear]);
 
   const handleYearChange = (date) => {
@@ -55,27 +55,48 @@ const Contact = () => {
         <Navbar />
         <h3 className="text-modify">- SUMMARY GENERAL PAGE -</h3>
 
+        <br />
+
         <div className="card-container">
           <Row>
-            <Col md={6}>
-              <Form.Group className="form-group-custom">
-                <Form.Label>Search Year:</Form.Label>
-                <DatePicker
-                  selected={selectedYear}
-                  onChange={handleYearChange}
-                  dateFormat="yyyy"
-                  showYearPicker
-                  className="form-control"
-                />
-              </Form.Group>
-              {data ? <SlipSummaryChart data={data} /> : <p>Loading...</p>}
+            <Form.Group
+              className="form-group-custom"
+              style={{ marginBottom: "1.5rem" }}
+            >
+              <Form.Label>Search Year:</Form.Label>
+              <DatePicker
+                selected={selectedYear}
+                onChange={handleYearChange}
+                dateFormat="yyyy"
+                showYearPicker
+                className="form-control"
+              />
+            </Form.Group>
+            <Col md={8}>
+              <Card>
+                <Card.Body>
+                  <Card.Text>
+                    {data ? (
+                      <SlipSummaryChart data={data} />
+                    ) : (
+                      <p>Loading...</p>
+                    )}
+                  </Card.Text>
+                </Card.Body>
+              </Card>
             </Col>
-            <Col md={3}>
-              {Array.isArray(doughnut) && doughnut.length > 0 ? (
-                <SlipSummaryDoughnutChart data={doughnut} />
-              ) : (
-                <p>Loading...</p>
-              )}
+            <Col md={4}>
+              <Card>
+                <Card.Body>
+                  <Card.Text>
+                    {Array.isArray(doughnut) && doughnut.length > 0 ? (
+                      <SlipSummaryDoughnutChart data={doughnut} />
+                    ) : (
+                      <p>Loading...</p>
+                    )}
+                  </Card.Text>
+                </Card.Body>
+              </Card>
             </Col>
           </Row>
         </div>

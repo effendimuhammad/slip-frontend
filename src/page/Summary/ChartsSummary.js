@@ -21,6 +21,9 @@ ChartJS.register(
 
 const SlipSummaryChart = ({ data }) => {
   const labels = [
+    "January",
+    "February",
+    "March",
     "April",
     "May",
     "June",
@@ -30,9 +33,6 @@ const SlipSummaryChart = ({ data }) => {
     "October",
     "November",
     "December",
-    "January",
-    "February",
-    "March",
   ];
   const chartData = {
     labels,
@@ -40,6 +40,9 @@ const SlipSummaryChart = ({ data }) => {
       {
         label: "Total Price",
         data: [
+          data.January,
+          data.February,
+          data.March,
           data.April,
           data.May,
           data.June,
@@ -49,9 +52,6 @@ const SlipSummaryChart = ({ data }) => {
           data.October,
           data.November,
           data.December,
-          data.January,
-          data.February,
-          data.March,
         ],
         backgroundColor: "rgba(62, 15, 156, 0.2)",
         borderColor: "rgb(5, 65, 65)",
@@ -69,6 +69,20 @@ const SlipSummaryChart = ({ data }) => {
       title: {
         display: true,
         text: "Total Price per Month",
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: "Month",
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: "Total Price (IDR Rp)",
+        },
       },
     },
   };

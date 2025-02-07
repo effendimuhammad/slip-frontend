@@ -13,6 +13,7 @@ import MasterGeneral from "../page/Master/MasterGeneral";
 import MasterDetail from "../page/Master/MasterDetail";
 import BuCard from "../page/BuCard/BuCard";
 import SummaryGeneral from "../page/Summary/SummaryGeneral";
+import DataChart from "../page/DetailSlip/ChartsByBu";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="/master" element={<MasterGeneral />} />
         <Route path="/masterDetail/:bu_code" element={<MasterDetail />} />
         <Route path="/summary" element={<SummaryGeneral />} />
+        <Route path="/chartBu" element={<DataChart />} />
       </Route>
     </Routes>
   );

@@ -76,7 +76,6 @@ function Layout() {
               <Col sm="10">
                 <Form.Control
                   type="text"
-                  placeholder="Time"
                   value={currentTime}
                   readOnly
                   disabled
@@ -85,7 +84,7 @@ function Layout() {
             </Col>
             <Nav>
               <Nav.Link className="d-flex align-items-center">
-                <span className="badge badge-light">Hello ,</span>{" "}
+                <span className="badge badge-light">Hello .....</span>{" "}
                 <span className="badge badge-light">
                   {username} , {nim}
                 </span>
@@ -102,7 +101,8 @@ function Layout() {
                   className="btn btn-link nav-link-bold"
                   style={{ color: "white", textDecoration: "none" }}
                 >
-                  <FontAwesomeIcon icon={faSignOutAlt} /> Logout
+                  <FontAwesomeIcon icon={faSignOutAlt} />{" "}
+                  <span className="badge badge-light">logout</span>{" "}
                 </button>
               </Nav.Link>
             </Nav>

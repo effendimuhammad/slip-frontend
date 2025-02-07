@@ -22,6 +22,7 @@ import DetailModal from "../DetailSlip/DetailSlip.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Select from "react-select";
+// import DataChart from "../DetailSlip/ChartsByBu.js";
 
 const InputSlip = () => {
   const [kodeSlip, setKodeSlip] = useState("");
@@ -497,6 +498,7 @@ const InputSlip = () => {
             </div>
           </Col>
         </Row>
+        {/* <DataChart buCode={filteredData[0].bu_code} /> */}
       </Container>
       <Footer />
     </div>

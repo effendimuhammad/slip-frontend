@@ -91,6 +91,8 @@ const DataTable = ({ data1 }) => {
   const indexOfFirstData = indexOfLastData - dataPerPage;
   const currentData = data1.slice(indexOfFirstData, indexOfLastData);
 
+  console.log("data1", data1);
+
   return (
     <div>
       <Table className="table table-bordered">
