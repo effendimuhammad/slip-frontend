@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import Footer from "../../components/Atom/Footer/Footer.js";
+// import Footer from "../../components/Atom/Footer/Footer.js";
 import Navbar from "../../components/Atom/Navbar/Navbar.js";
 import axios from "axios";
 import {
@@ -14,15 +14,22 @@ import {
 import "./InputSlip.css"; // Import CSS file
 import Swal from "sweetalert2";
 import PaginationTable from "../../components/Atom/Pagination/Pagination.js";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { parseISO } from "date-fns";
 import DetailModal from "../DetailSlip/DetailSlip.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faFileAlt,
+  faTrash,
+  faPaperPlane,
+  faChartLine,
+  faBell,
+  faArrowLeft,
+  faDatabase,
+} from "@fortawesome/free-solid-svg-icons";
 import Select from "react-select";
-// import DataChart from "../DetailSlip/ChartsByBu.js";
 
 const InputSlip = () => {
   const [kodeSlip, setKodeSlip] = useState("");
@@ -57,6 +64,9 @@ const InputSlip = () => {
 
   //drop down form
   const [options, setOptions] = useState([]);
+
+  //navigate graph
+  const navigate = useNavigate();
 
   const handleInputChange = (index, eventOrOption) => {
     const values = [...items];
@@ -139,7 +149,7 @@ const InputSlip = () => {
       axios
         .get(`http://localhost:4100/api/slip/getAllPartSlip/${bu_code}`)
         .then((response) => {
-          console.log(response.data.data);
+          // console.log(response.data.data);
           const data = response.data.data;
           setUsers(data);
         });
@@ -226,30 +236,82 @@ const InputSlip = () => {
   }, [bu_code, fetchListPartNumber]);
 
   const handleHapusClick = async (kode_slip) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this data?"
-    );
+    const confirmDelete = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    });
+
     if (confirmDelete) {
       try {
         await axios.delete(
           `http://localhost:4100/api/slip/delete/${kode_slip}`
         );
         fetchListMenu();
-        alert("Data deleted successfully");
+        Swal.fire("Deleted!", "Your data has been deleted.", "success");
       } catch (error) {
         console.error("Error deleting data:", error);
-        alert("An error occurred while deleting data");
+        Swal.fire("Error!", "An error occurred while deleting data.", "error");
       }
     }
+  };
+
+  const handleGraphClick = () => {
+    Swal.fire({
+      title: "Loading...",
+      text: "Please wait while we navigate to the chart data",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
+    setTimeout(() => {
+      Swal.close();
+      navigate("/chartBu", { state: { bu_code } });
+    }, 1000); // Adjust th
+  };
+
+  const handleGraphClickData = () => {
+    Swal.fire({
+      title: "Loading...",
+      text: "Please wait while we navigate to the chart data",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
+    setTimeout(() => {
+      Swal.close();
+      navigate("/chartdata", { state: { bu_code } });
+    }, 1000); // Adjust the timeout as needed
   };
 
   return (
     <div>
       <Container fluid className="mt-10">
         <Navbar />
-        <h4 className="text-modify">
-          {bu_code} - {bu_name}
-        </h4>{" "}
+        <Row>
+          <Col md={4}>
+            <h3 className="text-modify">
+              {bu_code} - {bu_name}
+            </h3>
+          </Col>
+          <Col md={8} style={{ textAlign: "right" }}>
+            <Button
+              onClick={() => window.history.back()}
+              style={{ margin: "20px" }}
+            >
+              <FontAwesomeIcon icon={faArrowLeft} /> Back
+            </Button>
+          </Col>
+        </Row>
+
         <Row>
           <Col md={4}>
             <Card className="margin-top">
@@ -314,6 +376,8 @@ const InputSlip = () => {
                               }
                               required
                               className="form-control"
+                              readOnly
+                              disabled
                             />
                           </Col>
                         </Form.Group>
@@ -331,6 +395,8 @@ const InputSlip = () => {
                               }
                               required
                               className="form-control"
+                              readOnly
+                              disabled
                             />
                           </Col>
                         </Form.Group>
@@ -357,7 +423,7 @@ const InputSlip = () => {
                           onClick={() => handleRemoveItem(index)}
                           className="danger"
                         >
-                          Remove Item
+                          <FontAwesomeIcon icon={faTrash} /> Remove Item
                         </Button>
                       </div>
                     ))}
@@ -365,10 +431,11 @@ const InputSlip = () => {
 
                   <div className="d-flex justify-content-end button-group">
                     <Button variant="secondary" onClick={handleAddItem}>
-                      Add Item
+                      <FontAwesomeIcon icon={faFileAlt} /> Add
                     </Button>
                     <Button variant="primary" type="submit">
-                      Submit
+                      {" "}
+                      <FontAwesomeIcon icon={faPaperPlane} /> Submit
                     </Button>
                   </div>
                 </Form>
@@ -379,8 +446,24 @@ const InputSlip = () => {
             <div>
               <Card className="margin-top">
                 <Card.Body className="card-body-scrollable">
-                  <Card.Title>
+                  <Card.Title className="d-flex justify-content-between align-items-center">
                     <h2 className="card-title">List Slip</h2>
+                    <div className="ml-auto btn-group">
+                      <Button
+                        variant="success"
+                        onClick={handleGraphClickData}
+                        className="primary"
+                      >
+                        <FontAwesomeIcon icon={faDatabase} /> Data
+                      </Button>
+                      <Button
+                        variant="primary"
+                        onClick={handleGraphClick}
+                        className="primary"
+                      >
+                        <FontAwesomeIcon icon={faChartLine} /> Graph
+                      </Button>
+                    </div>
                   </Card.Title>
                   <div className="card-body ">
                     <div
@@ -453,7 +536,7 @@ const InputSlip = () => {
                                       }
                                     >
                                       {" "}
-                                      <FontAwesomeIcon icon={faFileAlt} />
+                                      <FontAwesomeIcon icon={faBell} />
                                       Detail
                                     </Button>
                                     <Button
@@ -498,9 +581,7 @@ const InputSlip = () => {
             </div>
           </Col>
         </Row>
-        {/* <DataChart buCode={filteredData[0].bu_code} /> */}
       </Container>
-      <Footer />
     </div>
   );
 };

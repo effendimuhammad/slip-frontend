@@ -11,7 +11,7 @@ function Footer() {
         position: "fixed",
         bottom: 0,
         left: 10,
-        right: 10,
+        right: 5,
         width: "99%",
       }}
     >

@@ -9,7 +9,7 @@ const Layout = () => {
     <div>
       <Container fluid className="mt-10">
         <Navbar />
-        <h2>Welcome , to Dashboard</h2>
+        <h3 className="text-modify">- WELCOME, TO DASHBOARD -</h3>
         <Row>
           <CardGrid />
         </Row>

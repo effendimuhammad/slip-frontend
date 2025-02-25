@@ -1,0 +1,28 @@
+.card-image {
+    width: 100%; /* Adjust the width as needed */
+    height: 250px; /* Adjust the height as needed */
+    object-fit: cover; /* Ensures the image covers the area without distortion */
+  }
+  
+  .equal-card {
+    transition: transform 0.2s;
+  }
+  
+  .equal-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .card-title {
+    font-weight: bold;
+    font-size: 1.25rem;
+  }
+  
+  .card-text {
+    font-size: 1rem;
+    color: #6c757d;
+  }
+  
+  .card-footer {
+    background-color: #f8f9fa;
+    text-align: center;
+  }

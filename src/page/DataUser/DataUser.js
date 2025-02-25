@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import "./DataUser.css";
 import { useNavigate } from "react-router-dom";
 
 import Footer from "../../components/Atom/Footer/Footer.js";
 import Navbar from "../../components/Atom/Navbar/Navbar.js";
 import UserCard from "../../components/Organism/DataTable/CardDataTables.js";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 const Home = () => {
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
@@ -60,13 +61,22 @@ const Home = () => {
     <div>
       <Container fluid className="mt-10">
         <Navbar />
-        <h1>Home Page</h1>
-        <h1>Users</h1>
         <Row>
-          <Col md={6}>
-            <UserCard users={users} />
+          <Col md={4}>
+            <h3 className="text-modify">- HOME PAGE USERS -</h3>
           </Col>
-          <Col md={6}>
+          <Col md={8} style={{ textAlign: "right" }}>
+            <Button
+              onClick={() => window.history.back()}
+              style={{ margin: "20px" }}
+            >
+              <FontAwesomeIcon icon={faArrowLeft} /> Back
+            </Button>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col md={12}>
             <UserCard users={users} />
           </Col>
         </Row>

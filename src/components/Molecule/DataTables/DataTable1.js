@@ -7,7 +7,7 @@ import PaginationTable from "../../Atom/Pagination/Pagination";
 const DataTable = ({ data1 }) => {
   //pagination
   const [page, setPage] = useState(1);
-  const dataPerPage = 5;
+  const dataPerPage = 10;
   const totalPage = Math.ceil(data1.length / dataPerPage);
 
   //modal-edit

@@ -14,6 +14,9 @@ import MasterDetail from "../page/Master/MasterDetail";
 import BuCard from "../page/BuCard/BuCard";
 import SummaryGeneral from "../page/Summary/SummaryGeneral";
 import DataChart from "../page/DetailSlip/ChartsByBu";
+import ChartBarTumpuk from "../page/DetailSlip/ChartBarTumpuk";
+import UploadFile from "../page/Upload/UploadFile";
+import ChartData from "../page/DetailSlip/ChartData";
 
 function App() {
   return (
@@ -33,6 +36,9 @@ function App() {
         <Route path="/masterDetail/:bu_code" element={<MasterDetail />} />
         <Route path="/summary" element={<SummaryGeneral />} />
         <Route path="/chartBu" element={<DataChart />} />
+        <Route path="/bartumpuk" element={<ChartBarTumpuk />} />
+        <Route path="/upload" element={<UploadFile />} />
+        <Route path="/chartdata" element={<ChartData />} />
       </Route>
     </Routes>
   );

@@ -268,6 +268,20 @@ const DetailModal = ({ show, handleClose, detailData, bu_code }) => {
                   name="partName"
                   value={formData.partName}
                   onChange={handleInputChange}
+                  readOnly
+                  disabled
+                />
+              </Form.Group>
+
+              <Form.Group className="mb-3" controlId="formPrice">
+                <Form.Label>Price</Form.Label>
+                <Form.Control
+                  type="number"
+                  name="price"
+                  value={formData.price}
+                  onChange={handleInputChange}
+                  readOnly
+                  disabled
                 />
               </Form.Group>
               <Form.Group className="mb-3" controlId="formQuantity">
@@ -276,15 +290,6 @@ const DetailModal = ({ show, handleClose, detailData, bu_code }) => {
                   type="number"
                   name="quantity"
                   value={formData.quantity}
-                  onChange={handleInputChange}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formPrice">
-                <Form.Label>Price</Form.Label>
-                <Form.Control
-                  type="number"
-                  name="price"
-                  value={formData.price}
                   onChange={handleInputChange}
                 />
               </Form.Group>

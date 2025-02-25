@@ -1,15 +1,50 @@
 .navbar {
-    background: rgb(2, 0, 36);
-    background: linear-gradient(
-      90deg,
-      rgba(2, 0, 36, 1) 0%,
-      rgb(118, 118, 139) 35%,
-      rgb(100, 41, 112) 100%
-    );
-    color: #fff;
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgb(118, 118, 139) 35%,
+    rgb(100, 41, 112) 100%
+  );
+  color: #fff;
+  margin-bottom: 0px; /* Adjust as needed */
+  padding: 0.1rem 1rem; /* Reduce padding */
+}
+
+.navbar-brand {
+  margin-right: 5px; /* Adjust as needed */
+}
+
+.nav-link {
+  margin-right: 15px; /* Adjust as needed */
+}
+
+.form-control {
+  background-color: transparent;
+  border: none;
+  color: white;
+  text-align: center;
+  margin-left: 10px; /* Adjust as needed */
+}
+
+.badge-light {
+  background-color: transparent;
+  color: white;
+}
+
+.navbar-logo {
+  height: 50px; /* Adjust as needed */
+  width: 50px; /* Adjust as needed */
+}
+
+.nav-link-bold {
+  font-weight: bold;
 }
 
 .white-space {
-  margin: 0.2px; /* Atur jarak sesuai kebutuhan */
-  color: white; /* Warna teks putih */
+  margin: 0.5px; /* Adjust as needed */
+  color: white; /* White text color */
+}
+.nav-link-white {
+  color: white !important; /* Ensure the color is applied */
 }

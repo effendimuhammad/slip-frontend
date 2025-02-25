@@ -10,6 +10,7 @@ const SlipSummaryDoughnutChart = ({ data }) => {
   }
 
   const labels = data.map((item) => item.bu_name || "Unknown");
+
   const chartData = {
     labels,
     datasets: [
@@ -17,14 +18,14 @@ const SlipSummaryDoughnutChart = ({ data }) => {
         label: "Total Price",
         data: data.map((item) => item.Total_Price || 0),
         backgroundColor: [
-          "rgba(206, 14, 56, 0.2)",
-          "rgba(16, 133, 211, 0.2)",
-          "rgba(235, 174, 22, 0.2)",
-          "rgba(14, 163, 163, 0.2)",
-          "rgba(59, 14, 148, 0.2)",
-          "rgba(238, 138, 39, 0.2)",
-          "rgba(199, 199, 199, 0.2)",
-          "rgba(83, 102, 255, 0.2)",
+          "rgba(206, 14, 56, 0.8)",
+          "rgba(16, 133, 211, 0.8)",
+          "rgba(235, 174, 22, 0.8)",
+          "rgba(14, 163, 163, 0.8)",
+          "rgba(59, 14, 148, 0.8)",
+          "rgba(238, 138, 39, 0.8)",
+          "rgba(199, 199, 199, 0.8)",
+          "rgba(83, 102, 255, 0.8)",
         ],
         borderColor: [
           "rgba(255, 99, 132, 1)",

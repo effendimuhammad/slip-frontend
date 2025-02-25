@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Atom/Navbar/Navbar.js";
 import Footer from "../../components/Atom/Footer/Footer.js";
 import "./BuCard.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 const BuCard = ({ nim: propNim }) => {
   const [cards, setCards] = useState([]);
@@ -52,38 +54,50 @@ const BuCard = ({ nim: propNim }) => {
     <div>
       <Container fluid className="mt-10">
         <Navbar />
-        <h3 className="text-modify">- INPUT SLIP NUMBER & PART NUMBER -</h3>
-        <div className="card-container">
-          <Row>
-            {cards.map((card, index) => (
-              <Col md={2} className="card-col" key={index}>
-                <Card className="mb-4 shadow-sm card-link">
-                  <Card.Body>
-                    <Card.Title className="card-title mb-2 font-weight-bold">
-                      {card.bu_code}
-                    </Card.Title>
-                    <Card.Subtitle className="mb-2 text-muted card-subtitle font-weight-bold">
-                      {card.bu_name}
-                    </Card.Subtitle>
-                    <Card.Text className="card-text">
-                      <strong>Product:</strong> {card.product}
-                      <br />
-                      <strong>Department:</strong> {card.dept}
-                      <br />
-                    </Card.Text>
-                    <Button
-                      variant="primary"
-                      className="card-button"
-                      onClick={() => handleCardClick(card)}
-                    >
-                      View Details
-                    </Button>
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        </div>
+        <Row>
+          <Col md={4}>
+            <h3 className="text-modify">- INPUT SLIP NUMBER & PART NUMBER -</h3>
+          </Col>
+          <Col md={8} style={{ textAlign: "right" }}>
+            <Button
+              onClick={() => window.history.back()}
+              style={{ margin: "20px" }}
+            >
+              <FontAwesomeIcon icon={faArrowLeft} /> Back
+            </Button>
+          </Col>
+        </Row>
+
+        <Row>
+          {cards.map((card, index) => (
+            <Col md={2} className="card-col" key={index}>
+              <Card className="mb-4 shadow-sm card-link">
+                <Card.Body>
+                  <Card.Title className="card-title mb-2 font-weight-bold">
+                    {card.bu_code}
+                  </Card.Title>
+                  <Card.Subtitle className="mb-2 text-muted card-subtitle font-weight-bold">
+                    {card.bu_name}
+                  </Card.Subtitle>
+                  <Card.Text className="card-text">
+                    <strong>Product:</strong> {card.product}
+                    <br />
+                    <strong>Department:</strong> {card.dept}
+                    <br />
+                  </Card.Text>
+                  <Button
+                    variant="primary"
+                    className="card-button"
+                    onClick={() => handleCardClick(card)}
+                  >
+                    View Details
+                  </Button>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+
         <Footer />
       </Container>
     </div>

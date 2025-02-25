@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Card } from "react-bootstrap";
+import { Container, Card, Button } from "react-bootstrap";
 import Navbar from "../../components/Atom/Navbar/Navbar.js";
 import Footer from "../../components/Atom/Footer/Footer.js";
 import { Row, Col, Form } from "react-bootstrap";
@@ -10,6 +10,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
 import "./SummaryGeneral.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 const Contact = () => {
   const [data, setData] = useState(null);
@@ -53,9 +55,19 @@ const Contact = () => {
     <div>
       <Container fluid className="mt-10">
         <Navbar />
-        <h3 className="text-modify">- SUMMARY GENERAL PAGE -</h3>
-
-        <br />
+        <Row>
+          <Col md={4}>
+            <h3 className="text-modify">- SUMMARY GENERAL PAGE -</h3>
+          </Col>
+          <Col md={8} style={{ textAlign: "right" }}>
+            <Button
+              onClick={() => window.history.back()}
+              style={{ margin: "20px" }}
+            >
+              <FontAwesomeIcon icon={faArrowLeft} /> Back
+            </Button>
+          </Col>
+        </Row>
 
         <div className="card-container">
           <Row>
@@ -79,7 +91,7 @@ const Contact = () => {
                     {data ? (
                       <SlipSummaryChart data={data} />
                     ) : (
-                      <p>Loading...</p>
+                      <p>No data available ...</p>
                     )}
                   </Card.Text>
                 </Card.Body>
@@ -92,7 +104,7 @@ const Contact = () => {
                     {Array.isArray(doughnut) && doughnut.length > 0 ? (
                       <SlipSummaryDoughnutChart data={doughnut} />
                     ) : (
-                      <p>Loading...</p>
+                      <p>No data available ...</p>
                     )}
                   </Card.Text>
                 </Card.Body>

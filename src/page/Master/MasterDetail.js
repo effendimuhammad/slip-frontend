@@ -15,6 +15,9 @@ import {
   faEdit,
   faTrash,
   faFolderPlus,
+  faArrowLeft,
+  faDownload,
+  faUpload,
 } from "@fortawesome/free-solid-svg-icons";
 import "./MasterDetail.css";
 import axios from "axios";
@@ -30,6 +33,10 @@ const MasterDetail = () => {
   const [price, setPrice] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalQty, setTotalQty] = useState(0);
+
+  //file-upload
+  const [file, setFile] = useState(null);
+  const [uploadedData, setUploadedData] = useState([]);
 
   //format-rupiah
   const formatRupiah = (number) => {
@@ -71,7 +78,6 @@ const MasterDetail = () => {
   const handleCloseEdit = () => setShowEdit(false);
   const handleShowEdit = (partnumber_id) => {
     const id = partnumber_id;
-    console.log(id);
 
     if (id) {
       axios
@@ -229,7 +235,6 @@ const MasterDetail = () => {
     axios
       .get(`http://localhost:4100/api/partnumber/getPartMaster/${bu_code}`)
       .then((response) => {
-        console.log("rego", response.data.data);
         const data = response.data.data[0];
         setTotalPrice(data.total_price);
         setTotalQty(data.total_partnumbers);
@@ -241,13 +246,97 @@ const MasterDetail = () => {
     fetchListPriceQtyMaster();
   }, [fetchListPriceQtyMaster]);
 
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const handleUpload = () => {
+    if (file) {
+      let formData = new FormData();
+      formData.append("file", file);
+      console.log("formData", formData);
+
+      axios
+        .post("http://localhost:4100/api/master/insertFile", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          console.log("res", res);
+          setUploadedData(res.data.data);
+          Swal.fire({
+            icon: "success",
+            title: "Success",
+            text: "File uploaded successfully!",
+          }).then(() => {
+            window.location.reload();
+          });
+        })
+        .catch((err) => {
+          console.error("Error uploading file: ", err);
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Failed to upload file. Please try again.",
+          });
+        });
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Warning",
+        text: "Please upload a file first.",
+      });
+    }
+  };
+
+  const handleDownload = () => {
+    alert("download");
+    const link = document.createElement("a");
+    link.href = "http://localhost:4100/api/master/downloadFile";
+    link.download = ".xlsx";
+    link.click();
+  };
+
   return (
     <div>
       <Container fluid className="mt-10">
         <Navbar />
-        <h4 className="text-modify d-flex align-items-center">
-          {bu_code} - {bu_name}
-        </h4>
+        <Row>
+          <Col md={4}>
+            <h3 className="text-modify">
+              {" "}
+              {bu_code} - {bu_name}
+            </h3>
+          </Col>
+          <Col md={8} style={{ textAlign: "right" }}>
+            <Button onClick={handleDownload} style={{ margin: "20px" }}>
+              <FontAwesomeIcon icon={faDownload} /> Download File
+            </Button>
+            <input
+              type="file"
+              id="fileInput"
+              style={{ display: "none" }}
+              onChange={handleFileChange}
+            />
+            <Button
+              onClick={() => document.getElementById("fileInput").click()}
+              style={{ margin: "5px" }}
+            >
+              <FontAwesomeIcon icon={faUpload} /> Choose File
+            </Button>
+            {file && <span style={{ margin: "5px" }}>{file.name}</span>}
+            <Button onClick={handleUpload} style={{ margin: "5px" }}>
+              Submit
+            </Button>
+            <Button
+              onClick={() => window.history.back()}
+              style={{ margin: "20px" }}
+            >
+              <FontAwesomeIcon icon={faArrowLeft} /> Back
+            </Button>
+          </Col>
+        </Row>
 
         <Row>
           <Col md={10} className="margin-top">
@@ -332,44 +421,93 @@ const MasterDetail = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredParts.map((data, index) => (
-                  <tr key={data.partnumber_id}>
-                    <td>{index + 1}</td>
-                    <td>{data.bu_code}</td>
-                    <td>{data.bu_name}</td>
-                    <td>{data.partnumber}</td>
-                    <td>{data.partname}</td>
-                    <td>{formatRupiah(data.price)}</td>
-                    <td>{data.create_date}</td>
-                    <td>{data.update_date}</td>
-                    <td>
-                      <div>
-                        <center>
-                          <div className="d-flex justify-content-center button-group">
-                            <Button
-                              variant="primary"
-                              onClick={() => handleShowEdit(data.partnumber_id)}
-                            >
-                              <FontAwesomeIcon icon={faEdit} /> Edit
-                            </Button>
-                            <Button
-                              variant="danger"
-                              onClick={() =>
-                                handleShowDelete(data.partnumber_id)
-                              }
-                            >
-                              <FontAwesomeIcon icon={faTrash} /> Remove
-                            </Button>
-                          </div>
-                        </center>
-                      </div>
+                {filteredParts.length === 0 ? (
+                  <tr>
+                    <td colSpan="9">
+                      <center>No data</center>
                     </td>
                   </tr>
-                ))}
+                ) : (
+                  filteredParts.map((data, index) => (
+                    <tr key={data.partnumber_id}>
+                      <td>{index + 1}</td>
+                      <td>{data.bu_code}</td>
+                      <td>{data.bu_name.toUpperCase()}</td>
+                      <td>{data.partnumber}</td>
+                      <td>{data.partname}</td>
+                      <td>{formatRupiah(data.price)}</td>
+                      <td>{data.create_date}</td>
+                      <td>{data.update_date}</td>
+                      <td>
+                        <div>
+                          <center>
+                            <div className="d-flex justify-content-center button-group">
+                              <Button
+                                variant="primary"
+                                onClick={() =>
+                                  handleShowEdit(data.partnumber_id)
+                                }
+                              >
+                                <FontAwesomeIcon icon={faEdit} /> Edit
+                              </Button>
+                              <Button
+                                variant="danger"
+                                onClick={() =>
+                                  handleShowDelete(data.partnumber_id)
+                                }
+                              >
+                                <FontAwesomeIcon icon={faTrash} /> Remove
+                              </Button>
+                            </div>
+                          </center>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </Table>
           </Col>
         </Row>
+        {uploadedData.length > 0 && (
+          <Row>
+            <Col md={10} className="margin-top">
+              <h3>Uploaded Data</h3>
+              <Table className="table table-bordered">
+                <thead>
+                  <tr className="table table-hover">
+                    <td>
+                      <center>BU Code</center>
+                    </td>
+                    <td>
+                      <center>BU Name</center>
+                    </td>
+                    <td>
+                      <center>Part Number</center>
+                    </td>
+                    <td>
+                      <center>Part Name</center>
+                    </td>
+                    <td>
+                      <center>Price</center>
+                    </td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {uploadedData.map((data, index) => (
+                    <tr key={index}>
+                      <td>{data.bu_code}</td>
+                      <td>{data.bu_name.toUpperCase()}</td>
+                      <td>{data.partnumber}</td>
+                      <td>{data.partname}</td>
+                      <td>{formatRupiah(data.price)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </Col>
+          </Row>
+        )}
       </Container>
 
       {/* Modal - Add Item */}

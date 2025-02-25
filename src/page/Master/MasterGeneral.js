@@ -4,6 +4,8 @@ import { Col, Container, Row, Card, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Atom/Navbar/Navbar.js";
 import Footer from "../../components/Atom/Footer/Footer.js";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 const BuCard = ({ nim: propNim }) => {
   const [cards, setCards] = useState([]);
@@ -53,7 +55,20 @@ const BuCard = ({ nim: propNim }) => {
     <div>
       <Container fluid className="mt-10">
         <Navbar />
-        <h3 className="text-modify">- INPUT MASTER INI -</h3>
+        <Row>
+          <Col md={4}>
+            <h3 className="text-modify">- INPUT MASTER INI -</h3>
+          </Col>
+          <Col md={8} style={{ textAlign: "right" }}>
+            <Button
+              onClick={() => window.history.back()}
+              style={{ margin: "20px" }}
+            >
+              <FontAwesomeIcon icon={faArrowLeft} /> Back
+            </Button>
+          </Col>
+        </Row>
+
         <div className="card-container">
           <Row>
             {cards.map((card, index) => (
