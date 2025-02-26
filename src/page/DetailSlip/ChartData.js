@@ -20,6 +20,12 @@ function ChartData() {
   const [totalSumPrice, setTotalSumPrice] = useState(0); // Data yang sudah difilter
   const [searchTerm] = useState("");
 
+  //Range Date
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  //sum range
+  const [totalSumRangePrice, setTotalSumRangePrice] = useState(0);
+
   const fetchData = useCallback(async () => {
     try {
       const response = await axios.get(
@@ -44,18 +50,24 @@ function ChartData() {
     if (data) {
       const filtered = data.filter((item) => {
         const itemDate = parseISO(item.create_date);
+        const isWithinDateRange =
+          startDate && endDate
+            ? itemDate >= startDate && itemDate <= endDate
+            : true;
         return (
           (searchTerm === "" ||
             item.kode_slip.toLowerCase().includes(searchTerm.toLowerCase()) ||
             item.bu_code.toLowerCase().includes(searchTerm.toLowerCase()) ||
             item.bu_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             item.total_price.toString().includes(searchTerm)) &&
-          (!searchDate || itemDate.toDateString() === searchDate.toDateString())
+          (!searchDate ||
+            itemDate.toDateString() === searchDate.toDateString()) &&
+          isWithinDateRange
         );
       });
       setFilteredData(filtered);
     }
-  }, [data, searchDate, searchTerm]);
+  }, [data, searchTerm, searchDate, startDate, endDate]);
 
   const fetchListSumPrice = useCallback(() => {
     if (searchDate) {
@@ -79,6 +91,57 @@ function ChartData() {
     }
   }, [bu_code, searchDate]);
 
+  const fetchDateRange = useCallback(() => {
+    if (startDate && endDate) {
+      const adjustedStartDate = new Date(
+        startDate.getTime() - startDate.getTimezoneOffset() * 60000
+      );
+      const adjustedEndDate = new Date(
+        endDate.getTime() - endDate.getTimezoneOffset() * 60000
+      );
+      const formattedDateStartDate = adjustedStartDate
+        .toISOString()
+        .split("T")[0]; // Format to YYYY-MM-DD
+      const formattedDateEndDate = adjustedEndDate.toISOString().split("T")[0]; // Format to YYYY-MM-DD
+
+      axios
+        .get(
+          `http://localhost:4100/api/slip/getDataRange/${bu_code}/${formattedDateStartDate}/${formattedDateEndDate}`
+        )
+        .then((response) => {
+          console.log("API Response Date:", response.data); // Log entire response
+          // Set data or handle response as needed
+        })
+        .catch((err) => console.log("Error fetching total price:", err));
+    }
+  }, [bu_code, startDate, endDate]);
+
+  const fetchListSumRangePrice = useCallback(() => {
+    if (startDate && endDate) {
+      const adjustedStartDate = new Date(
+        startDate.getTime() - startDate.getTimezoneOffset() * 60000
+      );
+      const adjustedEndDate = new Date(
+        endDate.getTime() - endDate.getTimezoneOffset() * 60000
+      );
+      const formattedDateStartDate = adjustedStartDate
+        .toISOString()
+        .split("T")[0]; // Format to YYYY-MM-DD
+      const formattedDateEndDate = adjustedEndDate.toISOString().split("T")[0]; // Format to YYYY-MM-DD
+
+      axios
+        .get(
+          `http://localhost:4100/api/slip/getSumRange/${bu_code}/${formattedDateStartDate}/${formattedDateEndDate}`
+        )
+        .then((response) => {
+          console.log("API Response Sum:", response.data); // Log entire response
+          const total = response.data.data[0]?.total_price_sum || 0; // Get total_price_sum
+          setTotalSumRangePrice(total); // Set data or handle response as needed
+        })
+        .catch((err) => console.log("Error fetching total price:", err));
+    }
+  }, [bu_code, startDate, endDate]);
+
   useEffect(() => {
     fetchData();
   }, [fetchData]);
@@ -86,6 +149,14 @@ function ChartData() {
   useEffect(() => {
     fetchListSumPrice();
   }, [fetchListSumPrice]);
+
+  useEffect(() => {
+    fetchListSumRangePrice();
+  }, [fetchListSumRangePrice]);
+
+  useEffect(() => {
+    fetchDateRange();
+  }, [fetchDateRange]);
 
   const formatRupiah = (number) => {
     return number.toLocaleString("id-ID", {
@@ -111,7 +182,6 @@ function ChartData() {
         <Row>
           <Col md={10}>
             <h4 className="text-modify">
-              {" "}
               - DATA TRANSAKSI PART NUMBER - {bu_code} - {buName}
             </h4>
           </Col>
@@ -125,31 +195,112 @@ function ChartData() {
           </Col>
         </Row>
         <Row>
-          <Col md={12} className="margin-top">
-            <Form.Group as={Row} controlId="filterPartNumber" className="mb-3">
-              <div>
-                <label htmlFor="date">Date: </label>
+          <Col md={12}>
+            <Form.Group
+              as={Row}
+              id="filterPartNumber"
+              className="mb-1 d-flex align-items-center"
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Form.Label
+                column
+                sm="auto"
+                style={{ textAlign: "left", marginLeft: "0px" }}
+              >
+                Search :
+              </Form.Label>
+              <Col sm="auto">
                 <DatePicker
                   id="date"
+                  showIcon
                   selected={searchDate}
                   onChange={handleDateChange}
                   dateFormat="yyyy-MM-dd"
+                  placeholderText="Date"
                   isClearable
-                  placeholderText="Select a date"
-                  style={{ marginLeft: "10px" }}
+                  style={{ marginLeft: "0px" }} // Menambahkan margin kiri
                 />
-                <label htmlFor="totalPrice" style={{ marginLeft: "20px" }}>
-                  Summary Total Price:
-                </label>
-                <input
+              </Col>
+              <Form.Label
+                column
+                sm="auto"
+                style={{ textAlign: "left", marginLeft: "0px" }}
+              >
+                Sum :
+              </Form.Label>
+              <Col sm="auto">
+                <Form.Control
                   type="text"
                   id="totalPrice"
-                  value={formatRupiah(totalSumPrice)} // Display total price
-                  style={{ marginLeft: "10px" }}
+                  value={formatRupiah(totalSumPrice)}
                   readOnly
                   disabled
                 />
-              </div>
+              </Col>
+              <Col sm="auto" style={{ padding: "0 10px" }}>
+                <div
+                  style={{ borderLeft: "5px solid #ccc", height: "30px" }}
+                ></div>
+              </Col>
+              <Form.Label
+                column
+                sm="auto"
+                style={{ textAlign: "left", marginLeft: "0px" }}
+              >
+                Range :
+              </Form.Label>
+              <Col sm="auto">
+                <Row
+                  style={{ display: "flex", alignItems: "center", gap: "5px" }}
+                >
+                  <Col style={{ flex: "1" }}>
+                    <DatePicker
+                      id="startDate" // Menggunakan id
+                      showIcon
+                      selected={startDate}
+                      onChange={(date) => setStartDate(date)}
+                      selectsStart
+                      startDate={startDate}
+                      endDate={endDate}
+                      placeholderText="Start Date"
+                      isClearable
+                    />
+                  </Col>
+                  <Col style={{ flex: "2" }}>
+                    <DatePicker
+                      id="endDate" // Menggunakan id
+                      showIcon
+                      selected={endDate}
+                      onChange={(date) => setEndDate(date)}
+                      selectsEnd
+                      startDate={startDate}
+                      endDate={endDate}
+                      minDate={startDate}
+                      placeholderText="End Date"
+                      isClearable
+                    />
+                  </Col>
+                </Row>
+              </Col>
+              <Form.Label
+                column
+                sm="auto"
+                style={{ textAlign: "left", marginLeft: "0px" }}
+              >
+                Sum :
+              </Form.Label>
+              <Col sm="auto">
+                <Form.Control
+                  type="text"
+                  id="totalSumRangePrice"
+                  value={formatRupiah(totalSumRangePrice)}
+                  readOnly
+                  disabled
+                />
+              </Col>
             </Form.Group>
           </Col>
         </Row>

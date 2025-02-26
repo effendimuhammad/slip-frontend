@@ -182,7 +182,7 @@ const DataChart = () => {
             </Col>
 
             <Form.Label column sm="1">
-              Summary Price .
+              Current Month .
             </Form.Label>
             <Col sm="2">
               <Form.Control

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Nav, Navbar, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { faSignOutAlt, faHouse } from "@fortawesome/free-solid-svg-icons";
 import "./navbar.css";
 import { useNavigate } from "react-router-dom";
 import Avatar from "react-avatar";
@@ -41,8 +41,7 @@ function Layout() {
           className="navbar-brand"
           style={{ color: "white" }}
         >
-          {/* <img src={gambarData} alt="logo" className="navbar-logo" /> */}
-          <strong>Navbar</strong>
+          <FontAwesomeIcon icon={faHouse} />
         </Navbar.Brand>
         <Nav className="me-auto">
           <Nav.Link
