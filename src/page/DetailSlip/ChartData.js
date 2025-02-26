@@ -42,10 +42,6 @@ function ChartData() {
     }
   }, [bu_code]);
 
-  const handleDateChange = (date) => {
-    setSearchDate(date);
-  };
-
   useEffect(() => {
     if (data) {
       const filtered = data.filter((item) => {
@@ -217,7 +213,7 @@ function ChartData() {
                   id="date"
                   showIcon
                   selected={searchDate}
-                  onChange={handleDateChange}
+                  onChange={(date) => setSearchDate(date)}
                   dateFormat="yyyy-MM-dd"
                   placeholderText="Date"
                   isClearable
