@@ -17,6 +17,7 @@ import DataChart from "../page/DetailSlip/ChartsByBu";
 import ChartBarTumpuk from "../page/DetailSlip/ChartBarTumpuk";
 import UploadFile from "../page/Upload/UploadFile";
 import ChartData from "../page/DetailSlip/ChartData";
+import Email from "../page/Email/Email";
 
 function App() {
   return (
@@ -29,9 +30,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/input/:bu_code" element={<InputSlip />} />
-
         <Route path="/bucard" element={<BuCard />} />
-
         <Route path="/master" element={<MasterGeneral />} />
         <Route path="/masterDetail/:bu_code" element={<MasterDetail />} />
         <Route path="/summary" element={<SummaryGeneral />} />
@@ -39,6 +38,7 @@ function App() {
         <Route path="/bartumpuk" element={<ChartBarTumpuk />} />
         <Route path="/upload" element={<UploadFile />} />
         <Route path="/chartdata" element={<ChartData />} />
+        <Route path="/email" element={<Email />} />
       </Route>
     </Routes>
   );
