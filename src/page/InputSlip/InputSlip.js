@@ -209,7 +209,6 @@ const InputSlip = () => {
   };
 
   //drop down
-
   const fetchListPartNumber = useCallback(() => {
     if (bu_code) {
       axios
@@ -236,7 +235,7 @@ const InputSlip = () => {
   }, [bu_code, fetchListPartNumber]);
 
   const handleHapusClick = async (kode_slip) => {
-    const confirmDelete = await Swal.fire({
+    const result = await Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
       icon: "warning",
@@ -246,7 +245,7 @@ const InputSlip = () => {
       confirmButtonText: "Yes, delete it!",
     });
 
-    if (confirmDelete) {
+    if (result.isConfirmed) {
       try {
         await axios.delete(
           `http://localhost:4100/api/slip/delete/${kode_slip}`

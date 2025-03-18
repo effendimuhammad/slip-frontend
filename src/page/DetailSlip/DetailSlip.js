@@ -119,10 +119,17 @@ const DetailModal = ({ show, handleClose, detailData, bu_code }) => {
   };
 
   const handleShowDelete = async (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this data?"
-    );
-    if (confirmDelete) {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    });
+
+    if (result.isConfirmed) {
       try {
         const response = await fetch(
           `http://localhost:4100/api/slip/deleteSlip/${id}`,
@@ -131,14 +138,14 @@ const DetailModal = ({ show, handleClose, detailData, bu_code }) => {
           }
         );
         if (response.ok) {
-          alert("Data deleted successfully");
+          Swal.fire("Deleted!", "Your data has been deleted.", "success");
           setLocalDetailData(localDetailData.filter((item) => item.id !== id));
         } else {
-          alert("Failed to delete data");
+          Swal.fire("Failed!");
         }
       } catch (error) {
         console.error("Error deleting data:", error);
-        alert("An error occurred while deleting data");
+        Swal.fire("Error!", "An error occurred while deleting data.", "error");
       }
     }
   };
